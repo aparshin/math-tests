@@ -51,19 +51,22 @@ app.use(passport.session());
 
 app.post('/add', bodyParser.json(), function (req, res) {
     var newResult = req.body;
-    var allResults = JSON.parse(fs.readFileSync(STAT_FILENAME, 'utf8') || '[]');
+    fs.readFile(STAT_FILENAME, 'utf8', (err, data) => {
 
-    newResult.saveTime = new Date().valueOf();
+        var allResults = !err && data ? JSON.parse(data) : [];
 
-    if (req.user) {
-        newResult.user = req.user.username;
-    }
+        newResult.saveTime = new Date().valueOf();
 
-    allResults.push(newResult);
+        if (req.user) {
+            newResult.user = req.user.username;
+        }
 
-    fs.writeFileSync(STAT_FILENAME, JSON.stringify(allResults));
+        allResults.push(newResult);
 
-    res.send('ok');
+        fs.writeFileSync(STAT_FILENAME, JSON.stringify(allResults));
+
+        res.send('ok');
+    })
 })
 
 app.get('/stat', (req, res) => {
