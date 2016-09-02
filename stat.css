@@ -1,0 +1,9 @@
+td, th {
+    border: 1px solid grey;
+    text-align: center;
+    padding: 4px;
+}
+
+table {
+    border-collapse: collapse;
+}

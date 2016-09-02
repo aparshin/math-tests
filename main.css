@@ -1,0 +1,59 @@
+* {
+    font-family: cursive;
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+}
+
+.exercise-result {
+    width: 32px;
+    margin: 3px;
+}
+
+.answer-input {
+    width: 4em;
+    margin: 0em 0.5em;
+}
+
+.timer {
+    margin-left: 2em;
+}
+
+.statistics {
+    margin: 0.5em;
+}
+
+.series-reset {
+    margin-left: 0.5em;
+}
+
+.test-select-item {
+    margin: 0.5em;
+}
+
+.login-container {
+    background-color: #DDD;
+    padding: 0.5em;
+}
+.test-series-container {
+    margin: 0.5em;
+}
+
+.username, .password {
+    width: 7em;
+    margin: 0 0.5em;
+}
+
+.login-btn, .logout-btn {
+    margin: 0 0.5em;
+}
+
+.pass-title {
+    margin-left: 1.5em;
+}
+
+.login-input-error {
+    background-color: red;
+}
