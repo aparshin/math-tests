@@ -2,8 +2,6 @@ import React from 'react'
 import Tooltipster from 'tooltipster'
 import $ from 'jquery'
 
-Tooltipster($);
-
 const ExerciseStatus = React.createClass({
     getStyle: function() {
         if (this.props.test.givenAnswer === undefined) {
