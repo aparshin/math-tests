@@ -12,6 +12,12 @@ const Login = React.createClass({
         }.bind(this))
     },
 
+    onKeyPress: function(e) {
+        if (e.key === 'Enter') {
+            this.onLogin()
+        }
+    },
+
     render: function(){
         if (this.props.username) {
             return (<div className="login-container">
@@ -21,9 +27,18 @@ const Login = React.createClass({
         } else {
             return (<div className="login-container">
                 <span>Залогинься, друг:</span>
-                <input ref={(c) => this._username = c} className = "username"/>
+                <input
+                    onKeyPress = {this.onKeyPress}
+                    ref={(c) => this._username = c}
+                    className = "username"
+                />
                 <span className="pass-title">Пароль:</span>
-                <input ref={(c) => this._password = c} className = "password" type="password"/>
+                <input
+                    onKeyPress = {this.onKeyPress}
+                    ref={(c) => this._password = c}
+                    className = "password"
+                    type="password"
+                />
                 <button onClick={this.onLogin} className="login-btn">Войти</button>
             </div>)
         }
