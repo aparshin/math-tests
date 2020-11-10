@@ -1,20 +1,19 @@
-﻿var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react'
+import './stat.css'
 var $ = require('jquery');
 var moment = require('moment');
 
-var StatApp = React.createClass({
-    getInitialState: function() {
-        return {results: []};
-    },
 
-    componentDidMount: function() {
+export default class StatApp extends React.Component{
+    state = {results: []}
+
+    componentDidMount() {
         $.getJSON(this.props.config.baseUrl + 'stat').then(function(res) {
             this.setState({results: res});
         }.bind(this))
-    },
+    }
 
-    render: function() {
+    render() {
         var rows = this.state.results.map((seriesResult, i) => {
             var mistakes = seriesResult.tests.reduce((count, res) => count + (res.answer !== res.givenAnswer), 0),
                 time = (seriesResult.finishTimestamp - seriesResult.startTimestamp)/1000;
@@ -38,8 +37,4 @@ var StatApp = React.createClass({
             <tbody>{rows}</tbody>
         </table>);
     }
-});
-
-$.getJSON('./config.json').then((config) => {
-    ReactDOM.render(<StatApp config={config}/>, document.getElementById('root'));
-})
+};

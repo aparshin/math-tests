@@ -7,8 +7,8 @@ import Login      from '../containers/login'
 import TestSelection from './testselection'
 import {TESTS_AS_ARRAY} from '../tests'
 
-const App = React.createClass({
-    renderContent: function() {
+class App extends React.Component{
+    renderContent() {
         switch (this.props.mode) {
             case 'SELECT_TEST':
                 let testNames = TESTS_AS_ARRAY.map((testClass) => testClass.getTitle());
@@ -18,15 +18,15 @@ const App = React.createClass({
             case 'SHOW_RUN_INFO':
                 return <ResultInfo/>;
         }
-    },
+    }
 
-    render: function() {
+    render() {
         let content = this.renderContent();
         return (<div>
             <Login/>
             {content}
         </div>);
     }
-});
+};
 
 export default App;

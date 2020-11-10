@@ -1,7 +1,7 @@
 import React from 'react'
 
-const TestSelection = React.createClass({
-    render: function() {
+class TestSelection extends React.Component{
+    render() {
         var tests = this.props.tests.map((test)=> {
             return <button
                 className="test-select-item"
@@ -12,6 +12,6 @@ const TestSelection = React.createClass({
 
         return <div>{tests}</div>;
     }
-})
+}
 
 export default TestSelection;

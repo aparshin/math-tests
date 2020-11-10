@@ -1,38 +1,38 @@
 import React from 'react'
 
-const Timer = React.createClass({
-    getInitialState: function() {
+class Timer extends React.Component {
+    getInitialState() {
         return {
             startTime: new Date().valueOf(),
             timer: 0
         };
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         this._interval = setInterval(this.forceUpdate.bind(this), 100)
-    },
+    }
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         this._interval && clearInterval(this._interval);
-    },
+    }
 
-    resetTimer: function() {
+    resetTimer() {
         this.setState({
             startTime: new Date().valueOf(),
             timer: 0
         });
-    },
+    }
 
-    getTime: function() {
+    getTime() {
         return this.state.timer;
-    },
+    }
 
-    render: function() {
+    render() {
         var time = (Date.now() - this.props.startTimestamp)/1000;
         return (
             <span className="timer">{time.toFixed(1)} сек.</span>
         )
     }
-})
+}
 
 export default Timer;

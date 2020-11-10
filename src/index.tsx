@@ -1,7 +1,12 @@
 import React from 'react'
 import {render} from 'react-dom'
 import {createStore} from 'redux'
-import {Provider, connect} from 'react-redux'
+import {Provider} from 'react-redux'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom'
 
 import reducer from './reducers'
 import App from './containers/app'
@@ -9,7 +14,12 @@ import Config from './config'
 
 import $ from 'jquery'
 
-let start = function(userInfo) {
+import './main.css'
+import 'tooltipster/dist/css/tooltipster.bundle.min.css'
+import 'tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css'
+import StatApp from './stat'
+
+let start = function(userInfo: any) {
     let store = createStore(reducer, {
         mode: 'SELECT_TEST',
         username: userInfo ? userInfo.username : null
@@ -35,9 +45,18 @@ let start = function(userInfo) {
 
     render(
         <Provider store={store}>
-            <App />
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <App />
+                    </Route>
+                    <Route exact path="/stat">
+                        <StatApp config={Config.get()}/>
+                    </Route>
+                </Switch>
+            </Router>
         </Provider>,
-      document.getElementById('example')
+      document.getElementById('root')
     )
 }
 

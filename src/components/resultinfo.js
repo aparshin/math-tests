@@ -1,7 +1,7 @@
 import React from 'react'
 
-const ResultInfo = React.createClass({
-    render: function() {
+class ResultInfo extends React.Component{
+    render() {
         return (<div className="statistics">
             <div>Тестов: {this.props.count}</div>
             <div>Ошибок: {this.props.mistakes}</div>
@@ -9,6 +9,6 @@ const ResultInfo = React.createClass({
             <button onClick={this.props.onOk}>OK</button>
         </div>);
     }
-});
+};
 
 export default ResultInfo;

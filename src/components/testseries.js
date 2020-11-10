@@ -4,15 +4,15 @@ import SingleTest from './singletest'
 import SeriesStatus from './status'
 import Timer from './timer'
 
-var TestSeries = React.createClass({
-    _getTestStatus: function(test) {
+class TestSeries extends React.Component{
+    _getTestStatus(test) {
         if (typeof test.givenAnswer === 'undefined') {
             return 'undefined';
         }
         return test.givenAnswer === test.answer ? 'correct' : 'wrong';
-    },
+    }
 
-    render: function() {
+    render() {
         return (<div className="test-series-container">
             <SingleTest
                 str = {this.props.tests[this.props.curIndex].str}
@@ -23,6 +23,6 @@ var TestSeries = React.createClass({
             <SeriesStatus  tests = {this.props.tests}/>
         </div>)
     }
-})
+}
 
 export default TestSeries;

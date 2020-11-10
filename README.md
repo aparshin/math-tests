@@ -1,11 +1,18 @@
 # math-tests
+
 Simple interactive math tests for children
 
-### Build and deployment
+## Local development
 
-  * `npm i`
-  * `browserify -t [ babelify ] src/main.js -o bundle.js`
-  * `browserify -t [ babelify ] stat.js -o stat_bundle.js`
-  * Copy `config.json.example` to `config.json` and edit it correspondingly
+### Running Front-end in Development Mode
+
+  * `yarn install`
+  * Copy `config.json.example` to `public/config.json` and edit it correspondingly
+  * `yarn start` to start local dev server
+
+### Starting Local Server
+
+  * `cd server`
+  * `yarn install`
   * Copy `users.json.example` to `users.json` and edit it correspondingly
-  * `node server.js`
+  * `yarn start`

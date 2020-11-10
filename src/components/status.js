@@ -2,17 +2,17 @@ import React from 'react'
 import Tooltipster from 'tooltipster'
 import $ from 'jquery'
 
-const ExerciseStatus = React.createClass({
-    getStyle: function() {
+class ExerciseStatus extends React.Component{
+    getStyle() {
         if (this.props.test.givenAnswer === undefined) {
             return {fill: '#DDD'};
         } else {
             let isCorrect = this.props.test.answer === this.props.test.givenAnswer;
             return {fill: isCorrect ? 'green' : 'red'};
         }
-    },
+    }
 
-    bindTooltip: function() {
+    bindTooltip() {
         let isBinded = $(this._el).hasClass('tooltipstered'),
             shouldBinded = this.props.test.givenAnswer !== undefined;
 
@@ -28,17 +28,17 @@ const ExerciseStatus = React.createClass({
         if (!shouldBinded && isBinded) {
             $(this._el).tooltipster('destroy');
         }
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         this.bindTooltip();
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         this.bindTooltip();
-    },
+    }
 
-    render: function() {
+    render() {
         let t = this.props.test,
             isCorrect = t.answer === t.givenAnswer,
             op = isCorrect ? ' = ' : ' \u2260 ',
@@ -55,16 +55,16 @@ const ExerciseStatus = React.createClass({
             </svg>
         )
     }
-})
+}
 
-const SeriesStatus = React.createClass({
-    render: function() {
+class SeriesStatus extends React.Component{
+    render() {
         var statuses = this.props.tests.map(function(test, i) {
             return <ExerciseStatus test={test} key={i}/>
         });
 
         return <div>{statuses}</div>;
     }
-})
+}
 
 export default SeriesStatus;
