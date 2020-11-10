@@ -2,7 +2,7 @@ import React from 'react'
 
 import ResultInfo from '../containers/resultinfo'
 import TestSeries from '../containers/testseries'
-import Login      from '../containers/login'
+import Login      from '../components/login'
 
 import TestSelection from './testselection'
 import {TESTS_AS_ARRAY} from '../tests'

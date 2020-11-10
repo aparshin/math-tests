@@ -30,6 +30,7 @@ const reducer = (state, action) => {
             } else {
                 return state;
             }
+
         case 'START_TEST_SERIES':
             return Object.assign({}, state, {
                 mode: 'RUN_TEST',
@@ -40,19 +41,23 @@ const reducer = (state, action) => {
                     tests: action.tests
                 }
             })
+
         case 'INFO_PRESS_OK':
         case 'RESET_SERIES':
             return Object.assign({}, state, {
                 mode: 'SELECT_TEST'
             })
+
         case 'USER_LOGIN':
             return Object.assign({}, state, {
                 username: action.username
             })
+
         case 'USER_LOGOUT':
             return Object.assign({}, state, {
                 username: null
             })
+
         case 'SENT_RESULTS':
             return Object.assign({}, state, {
                 needSendResults: false
