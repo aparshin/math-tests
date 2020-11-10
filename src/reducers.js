@@ -1,5 +1,3 @@
-import Config from './config'
-
 var assignGivenAnswer = (series, answer) => {
     return {
         series: Object.assign({}, series, {
@@ -66,23 +64,3 @@ const reducer = (state, action) => {
 };
 
 export default reducer;
-
-/* const reducer = (state, action) => {
-    if (!state) {
-        state = {curIndex: 0, results: new Array(Config.get().maxExercises)};
-    }
-    switch (action.type) {
-        case 'SET_RESULT':
-            return Object.assign({}, state, {
-                curIndex: state.curIndex + 1,
-                results: state.results.map((res, i) => {
-                    if (i === action.index) {
-                        return {result: action.result};
-                    } else {
-                        return res;
-                    }
-                })
-        default:
-            return state;
-    }
-} */

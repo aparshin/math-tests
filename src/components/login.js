@@ -8,7 +8,7 @@ class Login extends React.Component{
             inputs.addClass('login-input-error');
             setTimeout(function() {
                 inputs.removeClass('login-input-error');
-            }.bind(this), 2000)
+            }, 2000)
         }.bind(this))
     }
 

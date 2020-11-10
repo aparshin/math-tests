@@ -3,23 +3,26 @@ import {render} from 'react-dom'
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route
+    BrowserRouter as Router,
+    Switch,
+    Route
 } from 'react-router-dom'
 
 import reducer from './reducers'
 import App from './containers/app'
 import Config from './config'
-
-import $ from 'jquery'
+import axios from 'axios'
 
 import './main.css'
 import 'tooltipster/dist/css/tooltipster.bundle.min.css'
 import 'tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css'
 import StatApp from './stat'
 
-let start = function(userInfo: any) {
+interface UserInfo {
+    username: string
+}
+
+let start = function(userInfo: UserInfo | null) {
     let store = createStore(reducer, {
         mode: 'SELECT_TEST',
         username: userInfo ? userInfo.username : null
@@ -28,14 +31,9 @@ let start = function(userInfo: any) {
     store.subscribe(() => {
         let state = store.getState()
         if (state.needSendResults) {
-            $.ajax(Config.get().baseUrl + 'add', {
-                xhrFields: {
-                    withCredentials: true
-                },
-                data : JSON.stringify(state.series),
-                contentType : 'application/json',
-                type : 'POST'
-            })
+            const config = Config.get()
+
+            config && axios.post(config.baseUrl + 'add', state.series, { withCredentials: true })
 
             store.dispatch({
                 type: 'SENT_RESULTS'
@@ -61,10 +59,7 @@ let start = function(userInfo: any) {
 }
 
 Config.load().then(() => {
-    $.ajax({
-        url: Config.get().baseUrl + 'login',
-        xhrFields: {
-            withCredentials: true
-        }
-    }).then(start, start.bind(null, null))
+    const config = Config.get()
+    config && axios.get<UserInfo>(config.baseUrl + 'login', { withCredentials: true })
+    .then(response => start(response.data), () => start(null))
 })

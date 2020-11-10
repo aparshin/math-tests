@@ -1,13 +1,19 @@
-import $ from 'jquery'
+import axios, {AxiosResponse} from 'axios'
 
-let _promise: any = null
-let _config: any = null
+interface ConfigInterface {
+    maxExersices: number,
+    baseUrl: string
+}
+
+let _promise: Promise<AxiosResponse<ConfigInterface>> | null = null
+let _config: ConfigInterface | null = null
 
 const Config = {
     load: function() {
         if (!_promise) {
-            _promise = $.getJSON('./config.json').then(function(config: any) {
-                _config = config;
+            _promise = axios.get<ConfigInterface>('./config.json')
+            _promise.then(response => {
+                _config = response.data
             })
         }
         return _promise;

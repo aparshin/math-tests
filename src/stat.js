@@ -1,16 +1,16 @@
 import React from 'react'
 import './stat.css'
-var $ = require('jquery');
-var moment = require('moment');
+import axios from 'axios'
+import moment from 'moment';
 
 
 export default class StatApp extends React.Component{
     state = {results: []}
 
     componentDidMount() {
-        $.getJSON(this.props.config.baseUrl + 'stat').then(function(res) {
-            this.setState({results: res});
-        }.bind(this))
+        axios.get(this.props.config.baseUrl + 'stat').then(res => {
+            this.setState({results: res.data});
+        })
     }
 
     render() {

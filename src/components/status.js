@@ -1,5 +1,4 @@
 import React from 'react'
-import Tooltipster from 'tooltipster'
 import $ from 'jquery'
 
 class ExerciseStatus extends React.Component{

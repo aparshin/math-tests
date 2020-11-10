@@ -17,6 +17,8 @@ class App extends React.Component{
                 return <TestSeries/>;
             case 'SHOW_RUN_INFO':
                 return <ResultInfo/>;
+            default:
+                return null;
         }
     }
 
