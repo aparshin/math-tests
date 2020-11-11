@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
+import clsx from 'clsx'
 import Config from '../config'
 
 export default function Login() {
@@ -11,22 +12,37 @@ export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const onLogin = useCallback(async () => {
-        const response = await axios.post(Config.get().baseUrl + 'login',
-            `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                withCredentials: true
-            }
-        )
-        const serverUsername = response.data ? response.data.username : null;
+    const [showError, setShowError] = useState(false)
 
-        dispatch({
-            type: 'USER_LOGIN',
-            username: serverUsername
-        })
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (showError) {
+                setShowError(false)
+            }
+        }, 2000)
+        return () => clearTimeout(timeoutId)
+    }, [showError])
+
+    const onLogin = useCallback(async () => {
+        try {
+            const response = await axios.post(Config.get().baseUrl + 'login',
+                `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    withCredentials: true
+                }
+            )
+            const serverUsername = response.data ? response.data.username : null;
+
+            dispatch({
+                type: 'USER_LOGIN',
+                username: serverUsername
+            })
+        } catch (e) {
+            setShowError(true)
+        }
     }, [dispatch, password, username])
 
     const onLogout = useCallback(() => {
@@ -62,13 +78,13 @@ export default function Login() {
             <span>Залогинься, друг:</span>
             <input
                 onKeyPress = {onKeyPress}
-                className = "username"
+                className={clsx('username', showError && 'login-input-error')}
                 onChange={onUsernameChange}
             />
             <span className="pass-title">Пароль:</span>
             <input
                 onKeyPress = {onKeyPress}
-                className = "password"
+                className={clsx('password', showError && 'login-input-error')}
                 type="password"
                 onChange={onPasswordChange}
             />
