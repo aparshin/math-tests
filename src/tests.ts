@@ -1,4 +1,16 @@
-class AdditionLess100 {
+interface MathTest {
+    getString(): string
+    getAnswer(): number
+}
+
+interface MathTestConstructor {
+    new(): MathTest
+    getTitle(): string
+}
+
+class AdditionLess100 implements MathTest{
+    private _v1: number
+    private _v2: number
     constructor() {
         this._v1 = Math.floor(Math.random()*100)
         this._v2 = Math.floor(Math.random()*100)
@@ -17,7 +29,10 @@ class AdditionLess100 {
     }
 }
 
-class BasicMultiplicationTest {
+class BasicMultiplicationTest implements MathTest {
+    private _mult1: number
+    private _mult2: number
+    private _divide: boolean
     _getParams() {
         return {
             min1: 2,
@@ -79,14 +94,14 @@ class FourClassMultiplicationTest extends BasicMultiplicationTest {
     }
 }
 
-let TESTS_AS_ARRAY = [
+let TESTS_AS_ARRAY: MathTestConstructor[] = [
     BasicMultiplicationTest,
     MultiplicationAndDivisionTest,
     FourClassMultiplicationTest,
     AdditionLess100
 ];
 
-let TESTS_BY_NAME = {};
+let TESTS_BY_NAME: {[name: string]: MathTestConstructor} = {};
 TESTS_AS_ARRAY.forEach((testClass) => {TESTS_BY_NAME[testClass.getTitle()] = testClass});
 
 export {TESTS_BY_NAME, TESTS_AS_ARRAY};

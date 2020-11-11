@@ -10,7 +10,7 @@ import {
 
 import reducer from './reducers'
 import App from './containers/app'
-import Config from './config'
+import Config, { ConfigInterface } from './config'
 import axios from 'axios'
 
 import './main.css'
@@ -48,7 +48,7 @@ let start = function(userInfo: UserInfo | null) {
                         <App />
                     </Route>
                     <Route exact path="/stat">
-                        <StatApp config={Config.get()}/>
+                        <StatApp config={Config.get() as ConfigInterface}/>
                     </Route>
                 </Switch>
             </Router>

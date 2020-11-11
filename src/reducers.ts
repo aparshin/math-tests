@@ -4,7 +4,7 @@ interface MathTest {
     givenAnswer?: number
 }
 
-interface MathSeries {
+export interface MathSeries {
     curIndex: number,
     startTimestamp: number,
     finishTimestamp?: number,

@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from 'axios'
 
-interface ConfigInterface {
+export interface ConfigInterface {
     maxExersices: number,
     baseUrl: string
 }
