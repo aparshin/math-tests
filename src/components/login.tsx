@@ -3,11 +3,12 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
 import Config from '../config'
+import {RootState} from '../reducers'
 
 export default function Login() {
     const dispatch = useDispatch()
 
-    const curUsername = useSelector(state => state.username)
+    const curUsername = useSelector((state: RootState) => state.username)
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -25,7 +26,7 @@ export default function Login() {
 
     const onLogin = useCallback(async () => {
         try {
-            const response = await axios.post(Config.get().baseUrl + 'login',
+            const response = await axios.post(Config.get()?.baseUrl + 'login',
                 `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
                 {
                     headers: {
@@ -46,7 +47,7 @@ export default function Login() {
     }, [dispatch, password, username])
 
     const onLogout = useCallback(() => {
-        axios.get(Config.get().baseUrl + 'logout', { withCredentials: true })
+        axios.get(Config.get()?.baseUrl + 'logout', { withCredentials: true })
             .then( () => {
             dispatch({
                 type: 'USER_LOGOUT'

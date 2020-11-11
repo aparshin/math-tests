@@ -25,7 +25,8 @@ interface UserInfo {
 let start = function(userInfo: UserInfo | null) {
     let store = createStore(reducer, {
         mode: 'SELECT_TEST',
-        username: userInfo ? userInfo.username : null
+        username: userInfo ? userInfo.username : null,
+        needSendResults: false
     });
 
     store.subscribe(() => {
