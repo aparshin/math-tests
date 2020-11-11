@@ -1,4 +1,4 @@
-interface MathTest {
+export interface MathTest {
     str: string,
     answer: number,
     givenAnswer?: number

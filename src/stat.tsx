@@ -17,7 +17,7 @@ interface ServerResult extends MathSeries {
     finishTimestamp: number
 }
 
-export default function StatApp ({config}: StatAppProps) {
+export default function StatApp ({ config }: StatAppProps) {
     const [results, setResults] = useState<ServerResult[]>([])
 
     useEffect(() => {

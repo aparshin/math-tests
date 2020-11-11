@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ResultInfo from '../containers/resultinfo'
+import ResultInfo from '../components/resultinfo'
 import TestSeries from '../containers/testseries'
 import Login      from '../components/login'
 
