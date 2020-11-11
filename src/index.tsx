@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom'
 
 import reducer from './reducers'
-import App from './containers/app'
+import App from './components/app'
 import Config, { ConfigInterface } from './config'
 import axios from 'axios'
 
