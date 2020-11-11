@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactTooltip from 'react-tooltip'
 
 import SingleTest from './singletest'
 import SeriesStatus from './status'
@@ -13,15 +14,18 @@ class TestSeries extends React.Component{
     }
 
     render() {
-        return (<div className="test-series-container">
-            <SingleTest
-                str = {this.props.tests[this.props.curIndex].str}
-                onAnswer = {this.props.onAnswer}
-            />
-            <button className="series-reset" onClick={this.props.onReset}>Закончить</button>
-            <Timer startTimestamp = {this.props.startTimestamp}/>
-            <SeriesStatus  tests = {this.props.tests}/>
-        </div>)
+        return (
+            <div className="test-series-container">
+                <SingleTest
+                    str = {this.props.tests[this.props.curIndex].str}
+                    onAnswer = {this.props.onAnswer}
+                />
+                <button className="series-reset" onClick={this.props.onReset}>Закончить</button>
+                <Timer startTimestamp = {this.props.startTimestamp}/>
+                <SeriesStatus  tests = {this.props.tests}/>
+                <ReactTooltip place="bottom" type="dark" effect="solid"/>
+            </div>
+        )
     }
 }
 

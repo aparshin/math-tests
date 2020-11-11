@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
 import Config from '../config'
-import {RootState} from '../reducers'
+import { RootState } from '../reducers'
 
 export default function Login() {
     const dispatch = useDispatch()

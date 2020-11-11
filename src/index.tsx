@@ -14,8 +14,6 @@ import Config from './config'
 import axios from 'axios'
 
 import './main.css'
-import 'tooltipster/dist/css/tooltipster.bundle.min.css'
-import 'tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css'
 import StatApp from './stat'
 
 interface UserInfo {

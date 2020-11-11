@@ -1,5 +1,4 @@
 import React from 'react'
-import $ from 'jquery'
 
 class ExerciseStatus extends React.Component{
     getStyle() {
@@ -11,42 +10,17 @@ class ExerciseStatus extends React.Component{
         }
     }
 
-    bindTooltip() {
-        let isBinded = $(this._el).hasClass('tooltipstered'),
-            shouldBinded = this.props.test.givenAnswer !== undefined;
-
-        if (shouldBinded && !isBinded) {
-            $(this._el).tooltipster({
-                delay: 50,
-                animationDuration: 50,
-                side: 'bottom',
-                theme: 'tooltipster-light'
-            });
-        }
-
-        if (!shouldBinded && isBinded) {
-            $(this._el).tooltipster('destroy');
-        }
-    }
-
-    componentDidMount() {
-        this.bindTooltip();
-    }
-
-    componentDidUpdate() {
-        this.bindTooltip();
-    }
-
     render() {
         let t = this.props.test,
             isCorrect = t.answer === t.givenAnswer,
             op = isCorrect ? ' = ' : ' \u2260 ',
-            title = t.str + op + t.givenAnswer;
+            title = t.str + op + t.givenAnswer,
+            shouldBinded = t.givenAnswer !== undefined
 
         return (
             <svg
                 ref={(c) => this._el = c}
-                title = {title}
+                data-tip = {shouldBinded ? title : ''}
                 className="exercise-result"
                 viewBox="0 0 16 16"
             >
