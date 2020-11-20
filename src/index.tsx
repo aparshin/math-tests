@@ -42,7 +42,7 @@ let start = function(userInfo: UserInfo | null) {
 
     render(
         <Provider store={store}>
-            <Router>
+            <Router basename="/multiplication">
                 <Switch>
                     <Route exact path="/">
                         <App />
