@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import Config, { ConfigInterface } from '../config'
+import {useConfig} from '../stores/Config'
 
 import ResultInfo from '../components/resultinfo'
 import TestSeries from '../components/testseries'
@@ -14,10 +14,11 @@ import { RootState } from '../reducers'
 
 export default function App() {
     const dispatch = useDispatch()
+    const config = useConfig()
     const mode = useSelector((state: RootState) => state.mode)
 
     const onSelectTest = useCallback(testName => {
-        let count = (Config.get() as ConfigInterface).maxExercises,
+        let count = config.maxExercises!,
             TestClass = TESTS_BY_NAME[testName],
             tests = [];
 
@@ -35,7 +36,7 @@ export default function App() {
             testName,
             tests
         });
-    }, [dispatch])
+    }, [dispatch, config.maxExercises])
 
     const getContent = () => {
         switch (mode) {

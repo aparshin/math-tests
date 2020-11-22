@@ -3,13 +3,9 @@ import './stat.css'
 import axios from 'axios'
 import moment from 'moment';
 
-import {ConfigInterface} from './config'
+import {useConfig} from './stores/Config'
 
 import {MathSeries} from './reducers'
-
-interface StatAppProps {
-    config: ConfigInterface
-}
 
 interface ServerResult extends MathSeries {
     user?: string,
@@ -17,8 +13,10 @@ interface ServerResult extends MathSeries {
     finishTimestamp: number
 }
 
-export default function StatApp ({ config }: StatAppProps) {
+export default function StatApp () {
     const [results, setResults] = useState<ServerResult[]>([])
+
+    const config = useConfig()
 
     useEffect(() => {
         axios.get<ServerResult[]>(config.baseUrl + 'stat').then(response => {

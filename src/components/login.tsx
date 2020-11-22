@@ -2,11 +2,12 @@ import React, { useCallback, useState, useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
-import Config from '../config'
+import {useConfig} from '../stores/Config'
 import { RootState } from '../reducers'
 
 export default function Login() {
     const dispatch = useDispatch()
+    const config = useConfig()
 
     const curUsername = useSelector((state: RootState) => state.username)
 
@@ -26,7 +27,7 @@ export default function Login() {
 
     const onLogin = useCallback(async () => {
         try {
-            const response = await axios.post(Config.get()?.baseUrl + 'login',
+            const response = await axios.post(config.baseUrl + 'login',
                 `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
                 {
                     headers: {
@@ -44,16 +45,16 @@ export default function Login() {
         } catch (e) {
             setShowError(true)
         }
-    }, [dispatch, password, username])
+    }, [dispatch, password, username, config.baseUrl])
 
     const onLogout = useCallback(() => {
-        axios.get(Config.get()?.baseUrl + 'logout', { withCredentials: true })
+        axios.get(config.baseUrl + 'logout', { withCredentials: true })
             .then( () => {
             dispatch({
                 type: 'USER_LOGOUT'
             })
         })
-    }, [dispatch])
+    }, [dispatch, config.baseUrl])
 
     const onKeyPress = useCallback(e => {
         if (e.key === 'Enter') {
