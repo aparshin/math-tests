@@ -1,6 +1,5 @@
-import {observable, action, runInAction, makeObservable} from 'mobx'
+import {observable, action, runInAction, makeObservable, computed} from 'mobx'
 import axios from 'axios'
-import { createContext, useContext } from 'react'
 
 export interface ConfigInterface {
     maxExercises: number,
@@ -14,6 +13,11 @@ export class Config {
 
     constructor() {
         makeObservable(this)
+    }
+
+    @computed
+    get hasConfig() {
+        return this.state === 'received'
     }
 
     @action
@@ -33,6 +37,3 @@ export class Config {
         }
     }
 }
-
-export const ConfigContext = createContext<Config | undefined>(undefined)
-export const useConfig = () => useContext(ConfigContext)!

@@ -11,40 +11,38 @@ import { when } from 'mobx'
 
 import reducer from './reducers'
 import App from './components/app'
-import {Config, ConfigContext} from './stores/Config'
+import {RootStore, StoreContext} from './stores/Root'
 import axios from 'axios'
 
 import './main.css'
 import StatApp from './stat'
 
-interface UserInfo {
-    username: string
-}
+const store = new RootStore()
 
-const config = new Config()
+store.configStore.fetchConfig()
+store.userStore.fetchCurrentUser()
 
-let start = function(userInfo: UserInfo | null) {
-    let store = createStore(reducer, {
+when(() => store.userStore.hasUserInfo, () => {
+    let reduxStore = createStore(reducer, {
         mode: 'SELECT_TEST',
-        username: userInfo ? userInfo.username : null,
         needSendResults: false
     });
 
-    store.subscribe(() => {
-        let state = store.getState()
+    reduxStore.subscribe(() => {
+        let state = reduxStore.getState()
         if (state.needSendResults) {
 
-            axios.post(config.baseUrl + 'add', state.series, { withCredentials: true })
+            axios.post(store.configStore.baseUrl + 'add', state.series, { withCredentials: true })
 
-            store.dispatch({
+            reduxStore.dispatch({
                 type: 'SENT_RESULTS'
             })
         }
     })
 
     render(
-        <ConfigContext.Provider value={config}>
-            <Provider store={store}>
+        <StoreContext.Provider value={store}>
+            <Provider store={reduxStore}>
                 <Router basename="/multiplication">
                     <Switch>
                         <Route exact path="/">
@@ -56,14 +54,7 @@ let start = function(userInfo: UserInfo | null) {
                     </Switch>
                 </Router>
             </Provider>
-        </ConfigContext.Provider>,
+        </StoreContext.Provider>,
       document.getElementById('root')
     )
-}
-
-config.fetchConfig()
-
-when(() => config.state === 'received', () => {
-    axios.get<UserInfo>(config.baseUrl + 'login', { withCredentials: true })
-        .then(response => start(response.data), () => start(null))
 })

@@ -1,15 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
+import {observer} from 'mobx-react-lite'
 import clsx from 'clsx'
-import {useConfig} from '../stores/Config'
-import { RootState } from '../reducers'
+import {useStore} from '../stores/Root'
 
-export default function Login() {
-    const dispatch = useDispatch()
-    const config = useConfig()
+export default observer(function Login() {
+    const {userStore} = useStore()
 
-    const curUsername = useSelector((state: RootState) => state.username)
+    const curUsername = userStore.username
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -17,44 +14,24 @@ export default function Login() {
     const [showError, setShowError] = useState(false)
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (showError) {
+        if (userStore.lastLoginState === 'error') {
+            setShowError(true)
+
+            const timeoutId = setTimeout(() => {
                 setShowError(false)
-            }
-        }, 2000)
-        return () => clearTimeout(timeoutId)
-    }, [showError])
+            }, 2000)
+
+            return () => clearTimeout(timeoutId)
+        }
+    }, [userStore.lastLoginState])
 
     const onLogin = useCallback(async () => {
-        try {
-            const response = await axios.post(config.baseUrl + 'login',
-                `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    withCredentials: true
-                }
-            )
-            const serverUsername = response.data ? response.data.username : null;
+        await userStore.login(username, password)
+    }, [password, username, userStore])
 
-            dispatch({
-                type: 'USER_LOGIN',
-                username: serverUsername
-            })
-        } catch (e) {
-            setShowError(true)
-        }
-    }, [dispatch, password, username, config.baseUrl])
-
-    const onLogout = useCallback(() => {
-        axios.get(config.baseUrl + 'logout', { withCredentials: true })
-            .then( () => {
-            dispatch({
-                type: 'USER_LOGOUT'
-            })
-        })
-    }, [dispatch, config.baseUrl])
+    const onLogout = useCallback(async () => {
+        await userStore.logout()
+    }, [userStore])
 
     const onKeyPress = useCallback(e => {
         if (e.key === 'Enter') {
@@ -93,4 +70,4 @@ export default function Login() {
             <button onClick={onLogin} className="login-btn">Войти</button>
         </div>)
     }
-}
+})

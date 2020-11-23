@@ -14,7 +14,6 @@ export interface MathSeries {
 
 export interface RootState {
     mode: string,
-    username: string | null,
     series?: MathSeries,
     needSendResults: boolean
 }
@@ -37,7 +36,6 @@ var assignGivenAnswer = (series: MathSeries, answer: number): MathSeries => {
 
 const initialState: RootState = {
     mode: 'SELECT_TEST',
-    username: null,
     needSendResults: false
 }
 
@@ -81,16 +79,6 @@ const reducer = (state: RootState = initialState, action: any): RootState => {
         case 'RESET_SERIES':
             return Object.assign({}, state, {
                 mode: 'SELECT_TEST'
-            })
-
-        case 'USER_LOGIN':
-            return Object.assign({}, state, {
-                username: action.username
-            })
-
-        case 'USER_LOGOUT':
-            return Object.assign({}, state, {
-                username: null
             })
 
         case 'SENT_RESULTS':

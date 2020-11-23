@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import {useConfig} from '../stores/Config'
-
 import ResultInfo from '../components/resultinfo'
 import TestSeries from '../components/testseries'
 import Login      from '../components/login'
@@ -11,14 +9,15 @@ import TestSelection from './testselection'
 import {TESTS_AS_ARRAY, TESTS_BY_NAME} from '../tests'
 
 import { RootState } from '../reducers'
+import { useStore } from '../stores/Root'
 
 export default function App() {
     const dispatch = useDispatch()
-    const config = useConfig()
+    const {configStore} = useStore()
     const mode = useSelector((state: RootState) => state.mode)
 
     const onSelectTest = useCallback(testName => {
-        let count = config.maxExercises!,
+        let count = configStore.maxExercises!,
             TestClass = TESTS_BY_NAME[testName],
             tests = [];
 
@@ -36,7 +35,7 @@ export default function App() {
             testName,
             tests
         });
-    }, [dispatch, config.maxExercises])
+    }, [dispatch, configStore.maxExercises])
 
     const getContent = () => {
         switch (mode) {

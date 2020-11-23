@@ -3,7 +3,7 @@ import './stat.css'
 import axios from 'axios'
 import moment from 'moment';
 
-import {useConfig} from './stores/Config'
+import {useStore} from './stores/Root'
 
 import {MathSeries} from './reducers'
 
@@ -16,13 +16,13 @@ interface ServerResult extends MathSeries {
 export default function StatApp () {
     const [results, setResults] = useState<ServerResult[]>([])
 
-    const config = useConfig()
+    const {configStore} = useStore()
 
     useEffect(() => {
-        axios.get<ServerResult[]>(config.baseUrl + 'stat').then(response => {
+        axios.get<ServerResult[]>(configStore.baseUrl + 'stat').then(response => {
             setResults(response.data);
         })
-    }, [config.baseUrl])
+    }, [configStore.baseUrl])
 
     var rows = results.map((seriesResult, i) => {
         var mistakes = seriesResult.tests.reduce((count, res) => count + Number(res.answer !== res.givenAnswer), 0),
