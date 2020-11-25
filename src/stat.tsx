@@ -9,8 +9,7 @@ import {Series} from './stores/Series'
 
 interface ServerResult extends Series {
     user?: string,
-    saveTime: number,
-    finishTimestamp: number
+    saveTime: number
 }
 
 export default function StatApp () {

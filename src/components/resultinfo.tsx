@@ -1,15 +1,13 @@
 import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux';
 
 import { useStore } from '../stores/Root';
 
 export default function ResultInfo() {
-    const dispatch = useDispatch()
-    const {seriesStore} = useStore()
+    const {seriesStore, uiStore} = useStore()
 
     const onOk = useCallback(() => {
-        dispatch({ type: 'INFO_PRESS_OK' })
-    }, [dispatch])
+        uiStore.setMode('SELECT_TEST')
+    }, [uiStore])
 
 
     if (!seriesStore.isFinished) {

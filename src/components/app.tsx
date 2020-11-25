@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {observer} from 'mobx-react-lite'
 
 import ResultInfo from '../components/resultinfo'
 import TestSeries from '../components/testseries'
@@ -8,13 +8,10 @@ import Login      from '../components/login'
 import TestSelection from './testselection'
 import {TESTS_AS_ARRAY, TESTS_BY_NAME} from '../tests'
 
-import { RootState } from '../reducers'
 import { useStore } from '../stores/Root'
 
-export default function App() {
-    const dispatch = useDispatch()
-    const {configStore, seriesStore} = useStore()
-    const mode = useSelector((state: RootState) => state.mode)
+export default observer(function App() {
+    const {configStore, seriesStore, uiStore} = useStore()
 
     const onSelectTest = useCallback(testName => {
         let count = configStore.maxExercises!,
@@ -31,13 +28,12 @@ export default function App() {
 
         seriesStore.initSeries(testName, tests)
 
-        dispatch({
-            type: 'START_TEST_SERIES'
-        });
-    }, [dispatch, seriesStore, configStore.maxExercises])
+        uiStore.setMode('RUN_TEST')
+
+    }, [uiStore, seriesStore, configStore.maxExercises])
 
     const getContent = () => {
-        switch (mode) {
+        switch (uiStore.mode) {
             case 'SELECT_TEST':
                 let testNames = TESTS_AS_ARRAY.map((testClass) => testClass.getTitle());
                 return <TestSelection tests = {testNames} onSelect = {onSelectTest}/>;
@@ -54,4 +50,4 @@ export default function App() {
         <Login/>
         {getContent()}
     </div>);
-}
+})

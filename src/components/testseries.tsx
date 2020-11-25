@@ -6,24 +6,20 @@ import SingleTest from './singletest'
 import SeriesStatus from './status'
 import Timer from './timer'
 import { useStore } from '../stores/Root'
-import { useDispatch } from 'react-redux'
 
 export default observer(function TestSeries() {
-    const dispatch = useDispatch()
-    const {seriesStore} = useStore()
+    const {seriesStore, uiStore} = useStore()
 
     const onAnswer = useCallback(answer => {
         seriesStore.addTestAnswer(answer)
         if (seriesStore.isFinished) {
-            dispatch({type: 'FINISH_TEST_SERIES'})
+            uiStore.setMode('SHOW_RUN_INFO')
         }
-    }, [dispatch, seriesStore])
+    }, [uiStore, seriesStore])
 
     const onReset = useCallback(() => {
-        dispatch({
-            type: 'RESET_SERIES'
-        })
-    }, [dispatch])
+        uiStore.setMode('SELECT_TEST')
+    }, [uiStore])
 
     return (
         <div className="test-series-container">

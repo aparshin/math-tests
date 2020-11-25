@@ -1,4 +1,7 @@
 import { makeObservable, observable, computed, action } from "mobx";
+import axios from 'axios'
+
+import {RootStore} from './Root'
 
 export interface MathTest {
     str: string,
@@ -14,8 +17,11 @@ export class Series {
     testName: string = ''
     tests: MathTest[] = []
 
-    constructor() {
+    rootStore: RootStore
+
+    constructor(rootStore: RootStore) {
         makeObservable(this)
+        this.rootStore = rootStore
     }
 
     @action
@@ -33,9 +39,19 @@ export class Series {
 
         if (this.isFinished) {
             this.finishTimestamp = Date.now()
+            axios.post(this.rootStore.configStore.baseUrl + 'add', this.toJSON(), { withCredentials: true })
         }
     }
 
     @computed
     get isFinished() {return this.curIndex === this.tests.length}
+
+    toJSON() {
+        return {
+            startTimestamp: this.startTimestamp,
+            finishTimestamp: this.finishTimestamp,
+            testName: this.testName,
+            tests: this.tests
+        }
+    }
 }
