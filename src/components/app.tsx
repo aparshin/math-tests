@@ -13,7 +13,7 @@ import { useStore } from '../stores/Root'
 
 export default function App() {
     const dispatch = useDispatch()
-    const {configStore} = useStore()
+    const {configStore, seriesStore} = useStore()
     const mode = useSelector((state: RootState) => state.mode)
 
     const onSelectTest = useCallback(testName => {
@@ -29,13 +29,12 @@ export default function App() {
             })
         }
 
+        seriesStore.initSeries(testName, tests)
+
         dispatch({
-            type: 'START_TEST_SERIES',
-            startTimestamp: Date.now(),
-            testName,
-            tests
+            type: 'START_TEST_SERIES'
         });
-    }, [dispatch, configStore.maxExercises])
+    }, [dispatch, seriesStore, configStore.maxExercises])
 
     const getContent = () => {
         switch (mode) {

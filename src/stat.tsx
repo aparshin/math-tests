@@ -5,9 +5,9 @@ import moment from 'moment';
 
 import {useStore} from './stores/Root'
 
-import {MathSeries} from './reducers'
+import {Series} from './stores/Series'
 
-interface ServerResult extends MathSeries {
+interface ServerResult extends Series {
     user?: string,
     saveTime: number,
     finishTimestamp: number

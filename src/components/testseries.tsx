@@ -1,24 +1,23 @@
 import React, { useCallback } from 'react'
 import ReactTooltip from 'react-tooltip'
+import {observer} from 'mobx-react-lite'
 
 import SingleTest from './singletest'
 import SeriesStatus from './status'
 import Timer from './timer'
-import { useDispatch, useSelector } from 'react-redux'
+import { useStore } from '../stores/Root'
+import { useDispatch } from 'react-redux'
 
-import {RootState} from '../reducers'
-
-export default function TestSeries() {
+export default observer(function TestSeries() {
     const dispatch = useDispatch()
-    const series = useSelector((state: RootState) => state.series)
+    const {seriesStore} = useStore()
 
     const onAnswer = useCallback(answer => {
-        dispatch({
-            type: 'TEST_ANSWER',
-            timestamp: Date.now(),
-            answer
-        })
-    }, [dispatch])
+        seriesStore.addTestAnswer(answer)
+        if (seriesStore.isFinished) {
+            dispatch({type: 'FINISH_TEST_SERIES'})
+        }
+    }, [dispatch, seriesStore])
 
     const onReset = useCallback(() => {
         dispatch({
@@ -26,20 +25,16 @@ export default function TestSeries() {
         })
     }, [dispatch])
 
-    if (!series) {
-        return null
-    }
-
     return (
         <div className="test-series-container">
             <SingleTest
-                str = {series.tests[series.curIndex].str}
+                str = {seriesStore.tests[seriesStore.curIndex].str}
                 onAnswer = {onAnswer}
             />
             <button className="series-reset" onClick={onReset}>Закончить</button>
-            <Timer startTimestamp = {series.startTimestamp}/>
-            <SeriesStatus  tests = {series.tests}/>
+            <Timer startTimestamp = {seriesStore.startTimestamp}/>
+            <SeriesStatus  tests = {seriesStore.tests}/>
             <ReactTooltip place="bottom" type="dark" effect="solid"/>
         </div>
     )
-}
+})

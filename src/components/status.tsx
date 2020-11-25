@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {MathTest} from '../reducers'
+import {MathTest} from '../stores/Series'
 
 interface SeriesStatusProps {
     tests: MathTest[]

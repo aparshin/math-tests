@@ -1,27 +1,27 @@
 import React, { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { RootState } from '../reducers'
+import { useStore } from '../stores/Root';
 
 export default function ResultInfo() {
     const dispatch = useDispatch()
-    const s = useSelector((state: RootState) => state.series)
+    const {seriesStore} = useStore()
 
     const onOk = useCallback(() => {
         dispatch({ type: 'INFO_PRESS_OK' })
     }, [dispatch])
 
 
-    if (!s || !s.finishTimestamp) {
+    if (!seriesStore.isFinished) {
         return null
     }
 
-    let time = (s.finishTimestamp - s.startTimestamp) / 1000,
-        mistakes = s.tests.reduce(
+    let time = (seriesStore.finishTimestamp - seriesStore.startTimestamp) / 1000,
+        mistakes = seriesStore.tests.reduce(
             (count, test) => count + Number(test.answer !== test.givenAnswer),
             0
         ),
-        count = s.tests.length
+        count = seriesStore.tests.length
 
     return (
         <div className="statistics">
